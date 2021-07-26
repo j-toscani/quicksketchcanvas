@@ -4,7 +4,16 @@
   box-sizing: inherit;
 }
 
+:root {
+  --color-100: hsl(135, 73%, 20%);
+  --color-200: hsl(135, 73%, 40%);
+  --color-300: hsl(135, 73%, 60%);
+  --color-400: hsl(135, 73%, 80%);
+  --color-500: hsl(135, 73%, 95%);
+}
+
 html {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   height: 100%;
   box-sizing: border-box;
   font-size: clamp(12px, 2.5vw, 20px);
@@ -18,11 +27,23 @@ body {
   grid-template-columns: 1fr;
   grid-template-rows: 15vh 1fr 20vh;
 }
-
-header {
-  background: gray;
+h1 {
+  font-weight: 600;
 }
 
-footer {
-  background: lightgray;
+canvas {
+  background-color: var(--color-500);
+  margin-top: 2rem;
+  box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  background: var(--color-100);
+  color: white;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
