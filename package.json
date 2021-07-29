@@ -4,7 +4,8 @@
   "description": "A canvas you can sketch on",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "dev":"tsc --watch"
   },
   "repository": {
     "type": "git",
