@@ -1,6 +1,6 @@
 import { getDistanceFromTo, getElementPosition } from "./createGetClickCoordinatesOn.js";
 
-class Canvas {
+export default class Canvas {
   ctx: CanvasRenderingContext2D;
   element: HTMLCanvasElement;
   mousePosition: Coordinates;
@@ -14,16 +14,16 @@ class Canvas {
     }
   }
 
-  get elementPosition () {
+  get elementPosition (): Coordinates {
       return getElementPosition(this.element)
   }
 
-  get clickPosition() {
+  get clickPosition(): Coordinates {
       const {dx: x, dy: y} = getDistanceFromTo(this.elementPosition, this.mousePosition)
       return {x, y};
   }
 
-  updatePosition(e: MouseEvent) {
+  updatePosition(e: MouseEvent):void {
     this.mousePosition  = {
         x: e.clientX,
         y: e.clientY
@@ -33,25 +33,9 @@ class Canvas {
   drawRect(
     size: { w: number; h: number },
     color = "black"
-  ) {
+  ): void {
     const { x, y, w, h } = { ...this.clickPosition, ...size };
     this.ctx.fillStyle = color;
     this.ctx.fillRect(x - w / 2, y - h / 2, w, h);
   }
-}
-
-export default function getCanvas(query: string): Canvas {
-  const canvasEl = document.querySelector(query) as HTMLCanvasElement;
-
-  if (!canvasEl) {
-    throw new Error("No Canvas available.");
-  }
-
-  const ctx = canvasEl.getContext("2d");
-
-  if (!ctx) {
-    throw new Error("No context was created");
-  }
-
-  return new Canvas(canvasEl, ctx);
 }

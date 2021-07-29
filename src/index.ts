@@ -1,4 +1,4 @@
-import getCanvas from "./Canvas.js";
+import getCanvas from "./getCanvas.js";
 
 const canvas = getCanvas("canvas");
 
