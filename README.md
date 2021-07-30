@@ -1,2 +1,2 @@
-# test-boilerplate
-This is a Repo which contains a simple structure to test Web APIs.
+# Skaetch
+This Repo is supposed to create a simple Canvas app, which allows for easy little sketches.
