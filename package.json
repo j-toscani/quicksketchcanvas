@@ -1,0 +1,32 @@
+{
+  "name": "skaetch",
+  "version": "0.0.1",
+  "description": "A canvas you can sketch on",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "dev":"tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j-toscani/quicksketchcanvas.git"
+  },
+  "keywords": [
+    "Canvas",
+    "Sketch",
+    "Draw",
+    "Playground"
+  ],
+  "author": "Julian Toscani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/j-toscani/quicksketchcanvas/issues"
+  },
+  "homepage": "https://github.com/j-toscani/quicksketchcanvas#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "eslint": "^7.31.0",
+    "typescript": "^4.3.5"
+  }
+}
