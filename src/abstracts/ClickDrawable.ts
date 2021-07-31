@@ -1,14 +1,21 @@
+import Canvas from "../lib/Canvas.js";
 import { DrawElement } from "./DrawElement.js";
 
-export abstract class ClickDrawable<T> extends DrawElement<T> implements Useable {
-    onClick = (e: MouseEvent): void => { 
+export abstract class ClickDrawable<T> extends DrawElement<T> implements Drawable {
+    constructor(canvas: Canvas, data: T) {
+        super(canvas, data);
+    }
+    handler = (e: MouseEvent): void => { 
         this.canvas.updatePosition(e);
-        this.draw(this.canvas.clickPosition)
-     }
+        const position = {...this.canvas.clickPosition};
+        const drawFunction = () => this.draw(position);
+        this.canvas.addToHistory(drawFunction);
+        drawFunction();
+    }
     select(): void {
-        this.canvas.element.addEventListener("click", this.onClick)
+        this.canvas.element.addEventListener("click", this.handler)
     }
     deselect(): void {
-        this.canvas.element.removeEventListener("click", this.onClick)
+        this.canvas.element.removeEventListener("click", this.handler)
     }
 }

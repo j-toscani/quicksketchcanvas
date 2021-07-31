@@ -16,8 +16,18 @@
   <main class="flex-center">
     <canvas width="800" height="600"></canvas>
     <aside>
-      <button class="drawable-button" data-drawable="circle"> Circle </button>
-      <button class="drawable-button" data-drawable="rect"> Rect </button>
+      <ul class="drawables-list">
+        <li class="drawables-list__item">
+          <button class="canvas-button" data-drawable="circle"> Circle </button>
+        </li>
+        <li class="drawables-list__item">
+          <button class="canvas-button" data-drawable="rect"> Rect </button>
+        </li>
+      </ul>
+      <div class="drawables-list">
+        <button class="canvas-button res-rev" id="revert"> Revert </button>
+        <button class="canvas-button res-rev" id="restore"> Restore </button>
+      </div>
     </aside>
   </main>
   <footer></footer>
