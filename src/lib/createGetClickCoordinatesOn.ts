@@ -1,5 +1,3 @@
-import { Coordinates, Distance } from "../types";
-
 export default function createGetClickCoordinates(element: HTMLElement): (e:MouseEvent) => Coordinates {
     const canvasPosition = getElementPosition(element);
     return (e: MouseEvent) => {
