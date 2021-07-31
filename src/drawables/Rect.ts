@@ -1,6 +1,6 @@
 import { ClickDrawable } from "../abstracts/ClickDrawable.js";
 
-interface RectData {
+export interface RectData {
   w: number;
   h: number;
   style: string;
