@@ -53,20 +53,17 @@ header {
 canvas + aside {
   display: flex;
   flex-flow: column;
+  justify-content: space-between;
 
   margin-left: 1rem;
   height: 100%;
-}
-
-aside > button {
-  margin-bottom: 0.5rem;
 }
 
 aside > button:last-of-type {
   margin-bottom: 0;
 }
 
-.drawable-button {
+.canvas-button {
   border: none;
   cursor: pointer;
   padding: 0.5rem;
@@ -76,11 +73,31 @@ aside > button:last-of-type {
   transition: all 0.2s ease-out;
 }
 
-.drawable-button:hover {
+.canvas-button:hover {
   opacity: 1;
 }
 
-.drawable-button.active {
+.canvas-button.active {
   color: white;
+  opacity: 1;
   background-color: var(--color-100);
+}
+
+.drawables-list {
+  display: flex;
+  flex-flow: column;
+
+  margin-top: 0;
+  padding: 0;
+}
+
+.drawables-list > *:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+.drawables-list__item {
+  list-style: none;
+}
+
+.drawables-list__item > button {
+  width: 100%;
 }
