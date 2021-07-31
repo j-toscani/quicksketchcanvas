@@ -44,11 +44,14 @@ export default class Canvas {
 
   set active(value: keyof DrawOptions) {
     this.drawOptions[this._active].deselect();
+    this.setButtonActivity(this._active, false);
 
     if (Object.prototype.hasOwnProperty.call(this.drawOptions, value)) {
       this.drawOptions[value].select();
       this._active = value
     }
+
+    this.setButtonActivity(value);
   }
 
   updatePosition(e: MouseEvent):void {
@@ -58,14 +61,22 @@ export default class Canvas {
     }
   }
 
+  setButtonActivity(key: keyof DrawOptions, active = true):void {
+    const button = document.querySelector(`[data-drawable=${key}]`);
+
+    if(button){
+      button.classList[active ? "add" : "remove"]("active");
+    }
+  }
+
   draw(): void {
-    console.log(this.active)
     const drawable = this.drawOptions[this.active];
     drawable.draw(this.clickPosition);
   }
 
   init():string {
     this.drawOptions[this.active].select();
+    this.active = this._active;
     return this._active
   }
 }
