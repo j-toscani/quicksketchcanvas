@@ -10,6 +10,6 @@ export abstract class DrawElement<T> {
     }
 
     draw(position: Coordinates):void {
-        console.log("draw", position);
+        position
     }
 }
