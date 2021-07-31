@@ -1,7 +1,7 @@
 import Canvas, { DrawOptions } from "./Canvas";
 
 export default function initDrawableButtons(canvas: Canvas): string[] {
-    const buttons = document.querySelectorAll(".drawable-button") as NodeListOf<HTMLButtonElement>;
+    const buttons = document.querySelectorAll("[data-drawable]") as NodeListOf<HTMLButtonElement>;
     const addDrawableButtonListener = addDrawableButtonListenerFactory(canvas);
     buttons.forEach(addDrawableButtonListener);
 
