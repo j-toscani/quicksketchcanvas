@@ -1,8 +1,8 @@
-import getCanvas from "./getCanvas.js";
+import createCanvas from "./lib/createCanvas.js";
 
-const canvas = getCanvas("canvas");
+const canvas = createCanvas("canvas");
 
 canvas.element.addEventListener("click", (e) => {
     canvas.updatePosition(e);
-    canvas.drawRect({w: 100, h: 100});
+    canvas.draw();
 });
