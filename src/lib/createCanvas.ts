@@ -1,6 +1,6 @@
-import Canvas from "./Canvas.js";
+import Canvas from "../Canvas.js";
 
-export default function getCanvas(query: string): Canvas {
+export default function createCanvas(query: string): Canvas {
   const canvasEl = document.querySelector(query) as HTMLCanvasElement;
 
   if (!canvasEl) {
