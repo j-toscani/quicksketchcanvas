@@ -9,7 +9,5 @@ export abstract class DrawElement<T> {
         this.data = data;
     }
 
-    draw(position: Coordinates):void {
-        position
-    }
+    abstract draw(position: Coordinates):void
 }
