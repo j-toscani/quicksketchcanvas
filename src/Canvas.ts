@@ -1,12 +1,24 @@
-import { getDistanceFromTo, getElementPosition } from "./createGetClickCoordinatesOn.js";
+import { getDistanceFromTo, getElementPosition } from "./lib/createGetClickCoordinatesOn.js";
+import { Coordinates } from "./types.js";
+import Rect from "./drawables/Rect.js";
+
+type DrawOptions = {"rect": Rect}
+
+function createDrawOptions(ctx: CanvasRenderingContext2D) {
+  return {"rect": new Rect(ctx, {w: 100, h: 100, style: "black"})}
+}
 
 export default class Canvas {
   ctx: CanvasRenderingContext2D;
   element: HTMLCanvasElement;
+  drawOptions: DrawOptions;
+  active: keyof DrawOptions;
   mousePosition: Coordinates;
 
   constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
+    this.drawOptions = createDrawOptions(ctx);
+    this.active = "rect";
     this.element = canvas;
     this.mousePosition = {
         x:0,
@@ -30,12 +42,8 @@ export default class Canvas {
     }
   }
 
-  drawRect(
-    size: { w: number; h: number },
-    color = "black"
-  ): void {
-    const { x, y, w, h } = { ...this.clickPosition, ...size };
-    this.ctx.fillStyle = color;
-    this.ctx.fillRect(x - w / 2, y - h / 2, w, h);
+  draw(): void {
+    const drawable = this.drawOptions[this.active];
+    drawable.draw(this.clickPosition);
   }
 }
