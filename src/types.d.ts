@@ -8,7 +8,8 @@ type Distance = {
     dy: number
 }
 
-interface Useable {
+interface Drawable {
+    handler: (e: MouseEvent) => void
     select: () => void;
     deselect: () => void;
 }
