@@ -27,13 +27,15 @@ body {
   grid-template-columns: 1fr;
   grid-template-rows: 15vh 1fr 20vh;
 }
+main {
+  margin-top: 2rem;
+}
 h1 {
   font-weight: 600;
 }
 
 canvas {
   background-color: var(--color-500);
-  margin-top: 2rem;
   box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -46,4 +48,56 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+canvas + aside {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+
+  margin-left: 1rem;
+  height: 100%;
+}
+
+aside > button:last-of-type {
+  margin-bottom: 0;
+}
+
+.canvas-button {
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  background: var(--color-400);
+  opacity: 0.6;
+
+  transition: all 0.2s ease-out;
+}
+
+.canvas-button:hover {
+  opacity: 1;
+}
+
+.canvas-button.active {
+  color: white;
+  opacity: 1;
+  background-color: var(--color-100);
+}
+
+.drawables-list {
+  display: flex;
+  flex-flow: column;
+
+  margin-top: 0;
+  padding: 0;
+}
+
+.drawables-list > *:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+.drawables-list__item {
+  list-style: none;
+}
+
+.drawables-list__item > button {
+  width: 100%;
 }

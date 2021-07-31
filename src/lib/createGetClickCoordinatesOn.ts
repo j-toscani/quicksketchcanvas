@@ -11,6 +11,8 @@ export default function createGetClickCoordinates(element: HTMLElement): (e:Mous
     }
 }
 
+
+
 export function getElementPosition(element: HTMLElement): Coordinates {
     const elementRect = element.getBoundingClientRect();
     return {
