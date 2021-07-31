@@ -4,6 +4,7 @@ import {
 } from "./createGetClickCoordinatesOn.js";
 import Rect from "../drawables/Rect.js";
 import Circle from "../drawables/Circle.js";
+import StepHistory from "../abstracts/StepHistory.js";
 
 export type DrawOptions = { rect: Rect; circle: Circle };
 
@@ -14,22 +15,19 @@ function createDrawOptions(canvas: Canvas) {
   };
 }
 
-export default class Canvas {
+export default class Canvas extends StepHistory<() => void> {
   ctx: CanvasRenderingContext2D;
   element: HTMLCanvasElement;
   drawOptions: DrawOptions;
   _active: keyof DrawOptions;
   mousePosition: Coordinates;
-  history: (() => void)[];
-  _historyStep: number;
 
   constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+    super();
     this.ctx = ctx;
     this.drawOptions = createDrawOptions(this);
     this._active = "circle";
     this.element = canvas;
-    this.history = [];
-    this._historyStep = 0;
     this.mousePosition = {
       x: 0,
       y: 0,
@@ -64,36 +62,11 @@ export default class Canvas {
     this.setButtonActivity(value);
   }
 
-  get historyStep():number {
-    return this._historyStep;
-  }
-
-  set historyStep(step: number) {
-    this._historyStep = step;
-    this.drawHistory();
-  }
-
   updatePosition(e: MouseEvent): void {
     this.mousePosition = {
       x: e.clientX,
       y: e.clientY,
     };
-  }
-
-  addToHistory(drawFunction: () => void): void {
-    if (this.historyStep < 0) {
-      this.history = this.history.slice(this.historyStep);
-      this.historyStep = 0;
-    }
-    this.history.push(drawFunction);
-  }
-
-  revert(): void {
-    this.historyStep -= 1;
-  }
-
-  restore():void {
-    this.historyStep += 1;
   }
 
   init(): string {
@@ -110,15 +83,19 @@ export default class Canvas {
     }
   }
 
-  private drawHistory(): void {
-    this.clear();
-
-    const historyState = this.history.slice(0, this.historyStep);
-    historyState.forEach((element) => element());
-  }
-
   private clear(): void {
     const { width, height } = this.element.getBoundingClientRect();
     this.ctx.clearRect(0, 0, width, height);
+  }
+
+  onHistoryUpdate():void {
+    this.drawHistory()
+  }
+
+  drawHistory(): void {
+    this.clear();
+
+    const historyState = this.getHistoryState();
+    historyState.forEach((element) => element());
   }
 }
