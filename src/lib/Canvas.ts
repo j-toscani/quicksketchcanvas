@@ -13,7 +13,7 @@ function createDrawOptions(canvas: Canvas) {
   return {
     rect: new Rect(canvas, { w: 100, h: 100, fill: "black" }),
     circle: new Circle(canvas, { r: 50, stroke: "black", fill: "white" }),
-    line: new FreeStroke(canvas, { w: 10, fill: "black" }),
+    free: new FreeStroke(canvas, { w: 10, fill: "black" }),
   };
 }
 
@@ -27,13 +27,14 @@ export default class Canvas extends StepHistory<() => void> {
   constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
     super();
     this.ctx = ctx;
-    this.drawOptions = createDrawOptions(this);
     this._active = "circle";
     this.element = canvas;
     this.mousePosition = {
       x: 0,
       y: 0,
     };
+    
+    this.drawOptions = createDrawOptions(this);
   }
 
   private get elementPosition(): Coordinates {
