@@ -2,13 +2,13 @@ import { MoveDrawable } from "../abstracts/MoveDrawable.js";
 
 export interface CorneredLine {
   w: number;
-  style: string;
+  fill: string;
 }
 
-export default class Rect extends MoveDrawable<CorneredLine> {
+export default class FreeStroke extends MoveDrawable<CorneredLine> {
   draw(position: Coordinates): void {
-    const { x, y, w, style } = { ...position, ...this.data };
-    this.canvas.ctx.fillStyle = style;
+    const { x, y, w, fill } = { ...position, ...this.data };
+    this.canvas.ctx.fillStyle = fill;
     this.canvas.ctx.fillRect(x - w / 2, y - w / 2, w, w);
   }
 }

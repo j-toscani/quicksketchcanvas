@@ -5,13 +5,15 @@ import {
 import Rect from "../drawables/Rect.js";
 import Circle from "../drawables/Circle.js";
 import StepHistory from "../abstracts/StepHistory.js";
+import FreeStroke from "../drawables/FreeStroke.js";
 
 export type DrawOptions = { rect: Rect; circle: Circle };
 
 function createDrawOptions(canvas: Canvas) {
   return {
-    rect: new Rect(canvas, { w: 100, h: 100, style: "black" }),
+    rect: new Rect(canvas, { w: 100, h: 100, fill: "black" }),
     circle: new Circle(canvas, { r: 50, stroke: "black", fill: "white" }),
+    line: new FreeStroke(canvas, { w: 10, fill: "black" }),
   };
 }
 
