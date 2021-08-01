@@ -1,4 +1,5 @@
 import { ClickDrawable } from "../abstracts/ClickDrawable.js";
+import Canvas from "../lib/Canvas.js";
 
 export interface RectData {
   w: number;
@@ -7,6 +8,9 @@ export interface RectData {
 }
 
 export default class Rect extends ClickDrawable<RectData> {
+  constructor(canvas: Canvas, data: RectData) {
+    super(canvas, data);
+  }
   draw(position: Coordinates): void {
     const { x, y, w, h, fill } = { ...position, ...this.data };
     this.canvas.ctx.fillStyle = fill;
