@@ -11,6 +11,15 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
     super(canvas, data)
   }
 
+  start(e:MouseEvent):void {    
+    this.canvas.updatePosition(e);
+    this.from = {...this.canvas.clickPosition};
+  }
+
+  stop(e:MouseEvent):void {
+    e
+  }
+
   draw(position: Coordinates): void {
     const { x, y, w, fill } = { ...position, ...this.data };
     this.canvas.ctx.fillStyle = fill;
