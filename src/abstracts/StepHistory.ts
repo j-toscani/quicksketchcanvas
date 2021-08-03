@@ -20,10 +20,10 @@ export default abstract class StepHistory<T> {
 
     addToHistory(step: T): void {
         if (this.historyStep < 0) {
-          this.history = this.history.slice(this.historyStep);
-          this.historyStep = 0;
+          this.history = this.history.slice(0, this.historyStep);
         }
         this.history.push(step);
+        this.historyStep = 0;
       }
     
       revert(): void {
