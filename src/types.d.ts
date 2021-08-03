@@ -12,4 +12,5 @@ interface Drawable {
     handler: (e: MouseEvent) => void
     select: () => void;
     deselect: () => void;
+    setupStyle: () => void;
 }

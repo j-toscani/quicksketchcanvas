@@ -13,7 +13,7 @@ function createDrawOptions(canvas: Canvas) {
   return {
     rect: new Rect(canvas, { w: 100, h: 100, fill: "black" }),
     circle: new Circle(canvas, { r: 50, stroke: "black", fill: "white" }),
-    free: new FreeStroke(canvas, { w: 10, fill: "black" }),
+    free: new FreeStroke(canvas, { w: 3, fill: "black" }),
   };
 }
 

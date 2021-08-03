@@ -12,6 +12,12 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
     super(canvas, data)
   }
 
+  setupStyle() {
+    this.canvas.ctx.lineWidth = this.data.w;
+    this.canvas.ctx.strokeStyle = this.data.stroke ?? "black";
+    this.canvas.ctx.lineJoin = "round";
+  }
+
   start(_e:MouseEvent):void {
     this.setupStyle();
     this.canvas.ctx.beginPath();
