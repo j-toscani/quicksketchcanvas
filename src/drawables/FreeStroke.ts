@@ -3,7 +3,8 @@ import Canvas from "../lib/Canvas.js";
 
 export interface CorneredLine {
   w: number;
-  fill: string;
+  fill?: string;
+  stroke?: string
 }
 
 export default class FreeStroke extends MoveDrawable<CorneredLine> {
@@ -11,18 +12,18 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
     super(canvas, data)
   }
 
-  start(e:MouseEvent):void {    
-    this.canvas.updatePosition(e);
-    this.from = {...this.canvas.clickPosition};
+  start(_e:MouseEvent):void {
+    this.setupStyle();
+    this.canvas.ctx.beginPath();
   }
-
-  stop(e:MouseEvent):void {
-    e
+  
+  stop(_e:MouseEvent):void {
+    this.canvas.ctx.closePath();
   }
 
   draw(position: Coordinates): void {
-    const { x, y, w, fill } = { ...position, ...this.data };
-    this.canvas.ctx.fillStyle = fill;
-    this.canvas.ctx.fillRect(x - w / 2, y - w / 2, w, w);
+    this.canvas.ctx.lineTo(position.x, position.y);
+    this.canvas.ctx.stroke();
+    this.canvas.ctx.moveTo(position.x,position.y);
   }
 }
