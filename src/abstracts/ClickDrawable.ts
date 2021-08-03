@@ -5,6 +5,7 @@ export abstract class ClickDrawable<T> extends DrawElement<T> implements Drawabl
     constructor(canvas: Canvas, data: T) {
         super(canvas, data);
     }
+    abstract setupStyle():void
     handler = (e: MouseEvent): void => { 
         this.canvas.updatePosition(e);
         const position = {...this.canvas.clickPosition};
