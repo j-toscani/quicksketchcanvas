@@ -1,3 +1,4 @@
-import initCanvas from "./lib/initCanvas.js"
+import initCanvas from "./lib/initCanvas";
+import "./style.css";
 
 initCanvas("canvas");

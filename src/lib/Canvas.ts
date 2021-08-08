@@ -1,15 +1,15 @@
 import {
   getDistanceFromTo,
   getElementPosition,
-} from "./createGetClickCoordinatesOn.js";
-import Rect from "../drawables/Rect.js";
-import Circle from "../drawables/Circle.js";
-import StepHistory from "../abstracts/StepHistory.js";
-import FreeStroke from "../drawables/FreeStroke.js";
+} from "./createGetClickCoordinatesOn";
+import Rect from "../drawables/Rect";
+import Circle from "../drawables/Circle";
+import StepHistory from "../abstracts/StepHistory";
+import FreeStroke from "../drawables/FreeStroke";
 
 export type DrawOptions = { rect: Rect; circle: Circle };
 
-function createDrawOptions(canvas: Canvas) {   
+function createDrawOptions(canvas: Canvas) {
   return {
     rect: new Rect(canvas, { w: 100, h: 100, fill: "black" }),
     circle: new Circle(canvas, { r: 50, stroke: "black", fill: "white" }),
@@ -33,7 +33,7 @@ export default class Canvas extends StepHistory<() => void> {
       x: 0,
       y: 0,
     };
-    
+
     this.drawOptions = createDrawOptions(this);
   }
 
@@ -91,8 +91,8 @@ export default class Canvas extends StepHistory<() => void> {
     this.ctx.clearRect(0, 0, width, height);
   }
 
-  onHistoryUpdate():void {
-    this.drawHistory()
+  onHistoryUpdate(): void {
+    this.drawHistory();
   }
 
   drawHistory(): void {
