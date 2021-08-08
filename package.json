@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "dev": "tsc --watch"
+    "dev": "vite --host",
+    "build": "tsc && vite build",
+    "serve": "vite preview --host"
   },
   "repository": {
     "type": "git",
@@ -28,5 +30,8 @@
     "@typescript-eslint/parser": "^4.28.5",
     "eslint": "^7.31.0",
     "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "vite": "^2.4.4"
   }
 }
