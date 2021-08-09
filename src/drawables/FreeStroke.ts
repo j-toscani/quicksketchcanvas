@@ -3,8 +3,8 @@ import Canvas from "../lib/Canvas";
 
 export interface CorneredLine {
   w: number;
-  fill?: string;
-  stroke?: string;
+  fill: string;
+  stroke: string;
 }
 
 export default class FreeStroke extends MoveDrawable<CorneredLine> {
@@ -27,6 +27,7 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
   }
 
   draw(position: Coordinates): void {
+    this.setupStyle();
     this.canvas.ctx.lineTo(position.x, position.y);
     this.canvas.ctx.stroke();
     this.canvas.ctx.moveTo(position.x, position.y);

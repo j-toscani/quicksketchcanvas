@@ -3,8 +3,8 @@ import Canvas from "../lib/Canvas";
 
 export interface CircleData {
   r: number;
-  stroke?: string;
-  fill?: string;
+  stroke: string;
+  fill: string;
 }
 
 export default class Circle extends ClickDrawable<CircleData> {
@@ -21,6 +21,7 @@ export default class Circle extends ClickDrawable<CircleData> {
   draw(position: Coordinates): void {
     const ctx = this.canvas.ctx;
     const { x, y } = position;
+    this.setupStyle();
 
     ctx.beginPath();
     ctx.arc(x, y, this.data.r, 0, Math.PI * 2);
