@@ -1,7 +1,7 @@
 import Canvas from "../lib/Canvas";
-import { DrawElement } from "./DrawElement";
+import { DrawElement, DrawElementStyle } from "./DrawElement";
 
-export abstract class ClickDrawable<T>
+export abstract class ClickDrawable<T extends DrawElementStyle>
   extends DrawElement<T>
   implements Drawable
 {
@@ -11,7 +11,6 @@ export abstract class ClickDrawable<T>
   abstract setupStyle(): void;
   handler = (e: MouseEvent): void => {
     this.canvas.updatePosition(e);
-    this.setupStyle();
     const position = { ...this.canvas.clickPosition };
     const drawFunction = () => this.draw(position);
     this.canvas.addToHistory(drawFunction);

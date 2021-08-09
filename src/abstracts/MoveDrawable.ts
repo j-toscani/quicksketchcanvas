@@ -1,7 +1,7 @@
 import Canvas from "../lib/Canvas";
-import { DrawElement } from "./DrawElement";
+import { DrawElement, DrawElementStyle } from "./DrawElement";
 
-export abstract class MoveDrawable<T>
+export abstract class MoveDrawable<T extends DrawElementStyle>
   extends DrawElement<T>
   implements Drawable
 {
@@ -18,7 +18,6 @@ export abstract class MoveDrawable<T>
 
   handler = (e: MouseEvent): void => {
     this.canvas.updatePosition(e);
-    this.setupStyle();
     const position = { ...this.canvas.clickPosition };
 
     this.draw(position);

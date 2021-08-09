@@ -1,17 +1,19 @@
 import Canvas from "../lib/Canvas";
 
-type DrawElementStyle = {
+export interface DrawElementStyle {
   fill: string;
   stroke: string;
-};
+}
+
+export type StylePropertyKey = keyof DrawElementStyle;
 
 export abstract class DrawElement<T> {
-  data: T & DrawElementStyle;
+  data: T;
   canvas: Canvas;
 
   constructor(canvas: Canvas, data: T) {
     this.canvas = canvas;
-    this.data = { ...data, fill: "#000", stroke: "#000" };
+    this.data = data;
   }
 
   abstract draw(position: Coordinates): void;
