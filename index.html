@@ -13,24 +13,44 @@
     <h1>Sketch!</h1>
   </header>
   <main class="flex-center">
-    <canvas width="800" height="600"></canvas>
-    <aside>
-      <ul class="drawables-list">
-        <li class="drawables-list__item">
-          <button class="canvas-button" data-drawable="circle"> Circle </button>
-        </li>
-        <li class="drawables-list__item">
-          <button class="canvas-button" data-drawable="rect"> Rect </button>
-        </li>
-        <li class="drawables-list__item">
-          <button class="canvas-button" data-drawable="free"> Free Line </button>
-        </li>
-      </ul>
-      <div class="drawables-list">
-        <button class="canvas-button res-rev" id="revert"> Revert </button>
-        <button class="canvas-button res-rev" id="restore"> Restore </button>
-      </div>
-    </aside>
+    <ul class="style-select-list">
+      <li>
+        <label class="style-label" for="fill">
+          <span> Fill: </span>
+          <span class="color-display">
+
+          </span>
+        </label>
+        <input type="color" data-style="fill" name="fill" id="fill">
+      </li>
+      <li>
+        <label class="style-label" for="stroke">
+          <span> Stroke: </span>
+          <span class="color-display"> </span>
+        </label>
+        <input type="color" data-style="stroke" name="stroke" id="stroke">
+      </li>
+    </ul>
+    <section class="canvas-section">
+      <canvas width="800" height="600"></canvas>
+      <aside>
+        <ul class="drawables-list">
+          <li class="drawables-list__item">
+            <button class="canvas-button" data-drawable="circle"> Circle </button>
+          </li>
+          <li class="drawables-list__item">
+            <button class="canvas-button" data-drawable="rect"> Rect </button>
+          </li>
+          <li class="drawables-list__item">
+            <button class="canvas-button" data-drawable="free"> Free Line </button>
+          </li>
+        </ul>
+        <div class="drawables-list">
+          <button class="canvas-button res-rev" id="revert"> Revert </button>
+          <button class="canvas-button res-rev" id="restore"> Restore </button>
+        </div>
+      </aside>
+    </section>
   </main>
   <footer></footer>
   <script src="/src/index.ts" type="module"></script>

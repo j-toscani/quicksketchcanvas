@@ -21,7 +21,7 @@ html {
 
 body {
   margin: 0;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
@@ -46,8 +46,42 @@ header {
 
 .flex-center {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  flex-flow: column wrap;
+}
+
+input[type="color"] {
+  display: none;
+}
+
+.style-select-list {
+  display: flex;
+  flex-flow: wrap;
+  list-style: none;
+  padding: 0;
+}
+
+.style-label {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+}
+
+.color-display {
+  height: 1rem;
+  width: 1rem;
+  display: inline-block;
+
+  background-color: var(--bg, black);
+}
+
+.canvas-section {
+  display: flex;
+  flex-flow: row;
 }
 
 canvas + aside {
@@ -94,6 +128,7 @@ aside > button:last-of-type {
 .drawables-list > *:not(:last-child) {
   margin-bottom: 0.5rem;
 }
+
 .drawables-list__item {
   list-style: none;
 }
