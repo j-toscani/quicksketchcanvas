@@ -1,4 +1,6 @@
+import activateStyleSelect from "./lib/activateStyleSelect";
 import initCanvas from "./lib/initCanvas";
 import "./style.css";
 
-initCanvas("canvas");
+const { canvas } = initCanvas("canvas");
+activateStyleSelect(canvas);
