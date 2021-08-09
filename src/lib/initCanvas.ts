@@ -8,7 +8,9 @@ export default function initCanvas(query: string): CanvasInfos {
   const canvas = createCanvas(query);
   const active = canvas.init();
   const available = initDrawableButtons(canvas);
+
   initRevertRestore(canvas);
+
   return {
     canvas: canvas,
     active,
