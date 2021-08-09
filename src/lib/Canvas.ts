@@ -11,9 +11,13 @@ export type DrawOptions = { rect: Rect; circle: Circle };
 
 function createDrawOptions(canvas: Canvas) {
   return {
-    rect: new Rect(canvas, { w: 100, h: 100, fill: "black" }),
-    circle: new Circle(canvas, { r: 50, stroke: "black", fill: "white" }),
-    free: new FreeStroke(canvas, { w: 3, fill: "black" }),
+    rect: new Rect(canvas, { w: 100, h: 100, fill: "red", stroke: "blue" }),
+    circle: new Circle(canvas, { r: 50, stroke: "white", fill: "green" }),
+    free: new FreeStroke(canvas, {
+      w: 3,
+      stroke: "yellow",
+      fill: "transparent",
+    }),
   };
 }
 
