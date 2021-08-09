@@ -19,7 +19,6 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
   }
 
   start(_e: MouseEvent): void {
-    this.setupStyle();
     this.canvas.ctx.beginPath();
   }
 

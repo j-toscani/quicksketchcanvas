@@ -11,6 +11,7 @@ export default class Circle extends ClickDrawable<CircleData> {
   constructor(canvas: Canvas, data: CircleData) {
     super(canvas, data);
   }
+
   setupStyle() {
     const { fill = "white", stroke = "black" } = this.data;
     this.canvas.ctx.fillStyle = fill;
@@ -19,7 +20,6 @@ export default class Circle extends ClickDrawable<CircleData> {
 
   draw(position: Coordinates): void {
     const ctx = this.canvas.ctx;
-    this.setupStyle();
     const { x, y } = position;
 
     ctx.beginPath();
