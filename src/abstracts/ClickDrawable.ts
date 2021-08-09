@@ -11,6 +11,7 @@ export abstract class ClickDrawable<T>
   abstract setupStyle(): void;
   handler = (e: MouseEvent): void => {
     this.canvas.updatePosition(e);
+    this.setupStyle();
     const position = { ...this.canvas.clickPosition };
     const drawFunction = () => this.draw(position);
     this.canvas.addToHistory(drawFunction);

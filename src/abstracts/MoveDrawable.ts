@@ -18,6 +18,7 @@ export abstract class MoveDrawable<T>
 
   handler = (e: MouseEvent): void => {
     this.canvas.updatePosition(e);
+    this.setupStyle();
     const position = { ...this.canvas.clickPosition };
 
     this.draw(position);
