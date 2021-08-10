@@ -57,16 +57,23 @@ export default class Canvas extends StepHistory<() => void> {
     return this._active;
   }
 
+  get drawableData() {
+    return this.drawOptions[this._active].data;
+  }
+
   set active(value: keyof DrawOptions) {
-    this.drawOptions[this._active].deselect();
-    this.setButtonActivity(this._active, false);
+    this.deselectDrawable(this._active)
+    this.selectDrawable(value)
+  }
 
-    if (Object.prototype.hasOwnProperty.call(this.drawOptions, value)) {
-      this.drawOptions[value].select();
-      this._active = value;
-    }
-
-    this.setButtonActivity(value);
+  deselectDrawable(key: keyof DrawOptions) {
+    this.drawOptions[key].deselect();
+    this.setButtonActivity(key, false);
+  }
+  selectDrawable(key: keyof DrawOptions) {
+    this.drawOptions[key].select();
+    this.setButtonActivity(key);
+    this._active = key;
   }
 
   updatePosition(e: MouseEvent): void {
@@ -96,7 +103,7 @@ export default class Canvas extends StepHistory<() => void> {
   }
 
   onHistoryUpdate(): void {
-    this.drawHistory();
+    // this.drawHistory();
   }
 
   drawHistory(): void {

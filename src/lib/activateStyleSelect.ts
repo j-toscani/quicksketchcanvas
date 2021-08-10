@@ -21,8 +21,7 @@ function createHandleInputChange(canvas: Canvas) {
       throw Error("Unacceptable style prop on input.");
     }
 
-    const drawElement = canvas.drawOptions[canvas.active];
-    drawElement.data[propToChange] = target.value;
+    canvas.drawableData[propToChange] = target.value;
   };
 }
 
