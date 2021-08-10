@@ -8,7 +8,7 @@ export default function activateStyleSelect(canvas: Canvas) {
   );
 }
 
-function getInputs() {
+export function getInputs(): NodeListOf<HTMLInputElement> {
   return document.querySelectorAll("[data-style]");
 }
 
