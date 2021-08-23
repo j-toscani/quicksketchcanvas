@@ -9,17 +9,17 @@ export interface RectData {
 }
 
 export default class Rect extends ClickDrawable<RectData> {
-  constructor(canvas: Canvas, data: RectData) {
-    super(canvas, data);
+  constructor(data: RectData) {
+    super(data);
   }
 
-  setupStyle() {
-    this.canvas.ctx.fillStyle = this.data.fill;
+  setupStyle(ctx: CanvasRenderingContext2D) {
+    ctx.fillStyle = this.data.fill;
   }
 
-  draw(position: Coordinates): void {
-    const { x, y, w, h } = { ...position, ...this.data };
-    this.setupStyle();
-    this.canvas.ctx.fillRect(x - w / 2, y - h / 2, w, h);
+  draw(ctx: CanvasRenderingContext2D): void {
+    const { x, y, w, h } = { ...this.position, ...this.data };
+    this.setupStyle(ctx);
+    ctx.fillRect(x - w / 2, y - h / 2, w, h);
   }
 }

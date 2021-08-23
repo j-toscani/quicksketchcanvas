@@ -1,3 +1,7 @@
+import Circle from "./drawables/Circle";
+import FreeStroke from "./drawables/FreeStroke";
+import Rect from "./drawables/Rect";
+
 type Coordinates = {
   x: number;
   y: number;
@@ -8,9 +12,4 @@ type Distance = {
   dy: number;
 };
 
-interface Drawable {
-  handler: (e: MouseEvent) => void;
-  select: () => void;
-  deselect: () => void;
-  setupStyle: () => void;
-}
+export type Drawable = Rect | Circle | FreeStroke;

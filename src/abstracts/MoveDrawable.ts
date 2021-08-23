@@ -1,31 +1,30 @@
 import Canvas from "../lib/Canvas";
 import { DrawElement, DrawElementStyle } from "./DrawElement";
 
-export abstract class MoveDrawable<T extends DrawElementStyle>
-  extends DrawElement<T>
-  implements Drawable
-{
+export abstract class MoveDrawable<
+  T extends DrawElementStyle
+> extends DrawElement<T> {
   points: Coordinates[];
 
-  constructor(canvas: Canvas, data: T) {
-    super(canvas, data);
+  constructor(data: T) {
+    super(data);
     this.points = [];
   }
 
   abstract start(e: MouseEvent): void;
   abstract stop(e: MouseEvent): void;
-  abstract setupStyle(): void;
 
-  handler = (e: MouseEvent): void => {
-    this.canvas.updatePosition(e);
-    const position = { ...this.canvas.clickPosition };
+  createHandler = (ctx: CanvasRenderingContext2D) => {
+    (e: MouseEvent): void => {
+      this.getClickPosition(e);
 
-    this.draw(position);
-    this.trackJourney(position);
+      this.draw(ctx);
+      this.trackJourney();
+    };
   };
 
-  trackJourney(coordinates: Coordinates): void {
-    this.points.push({ ...coordinates });
+  trackJourney(): void {
+    this.points.push({ ...this.position });
   }
 
   activate = (e: MouseEvent): void => {
