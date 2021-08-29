@@ -2,9 +2,11 @@ import createCanvas from "./createCanvas";
 import Canvas from "../Canvas";
 import initDrawableButtons from "./initDrawableButtons";
 import { DrawElement } from "../abstracts/DrawElement";
+import { Drawable } from "../types";
 
 type CanvasInfos = {
   canvas: Canvas;
+  active: Drawable;
   available: string[];
 };
 
@@ -17,6 +19,7 @@ export default function initCanvas(query: string): CanvasInfos {
 
   return {
     canvas: canvas,
+    active: canvas.active,
     available,
   };
 }

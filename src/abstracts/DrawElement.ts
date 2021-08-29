@@ -1,4 +1,5 @@
 import { Coordinates } from "../types";
+import StepHistory from "./StepHistory";
 
 export interface DrawElementStyle {
   fill: string;
@@ -29,8 +30,18 @@ export abstract class DrawElement<T> {
 
   handler = (_e: MouseEvent) => {};
 
-  abstract _createHandler = (_ctx: CanvasRenderingContext2D) => {};
+  abstract _createHandler = (
+    _ctx: CanvasRenderingContext2D,
+    history?: StepHistory<() => {}>
+  ) => {};
 
-  abstract setCanvas(element: HTMLCanvasElement): void;
-  abstract removeCanvas(element: HTMLCanvasElement): void;
+  abstract setCanvas(
+    element: HTMLCanvasElement,
+    history?: StepHistory<() => {}>
+  ): void;
+
+  abstract removeCanvas(
+    element: HTMLCanvasElement,
+    history?: StepHistory<() => {}>
+  ): void;
 }
