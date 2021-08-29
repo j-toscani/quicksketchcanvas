@@ -1,5 +1,4 @@
 import { MoveDrawable } from "../abstracts/MoveDrawable";
-import Canvas from "../lib/Canvas";
 
 export interface CorneredLine {
   w: number;
@@ -8,28 +7,30 @@ export interface CorneredLine {
 }
 
 export default class FreeStroke extends MoveDrawable<CorneredLine> {
-  constructor(canvas: Canvas, data: CorneredLine) {
-    super(canvas, data);
+  key: string;
+  constructor(data: CorneredLine) {
+    super(data);
+    this.key = "line";
   }
 
-  setupStyle() {
-    this.canvas.ctx.lineWidth = this.data.w;
-    this.canvas.ctx.strokeStyle = this.data.stroke ?? "black";
-    this.canvas.ctx.lineJoin = "round";
+  setupStyle(ctx: CanvasRenderingContext2D) {
+    ctx.lineWidth = this.data.w;
+    ctx.strokeStyle = this.data.stroke ?? "black";
+    ctx.lineJoin = "round";
   }
 
-  start(_e: MouseEvent): void {
-    this.canvas.ctx.beginPath();
+  start(ctx: CanvasRenderingContext2D): void {
+    this.setupStyle(ctx);
+    ctx.beginPath();
   }
 
-  stop(_e: MouseEvent): void {
-    this.canvas.ctx.closePath();
+  stop(ctx: CanvasRenderingContext2D): void {
+    ctx.closePath();
   }
 
-  draw(position: Coordinates): void {
-    this.setupStyle();
-    this.canvas.ctx.lineTo(position.x, position.y);
-    this.canvas.ctx.stroke();
-    this.canvas.ctx.moveTo(position.x, position.y);
+  draw(ctx: CanvasRenderingContext2D): void {
+    ctx.lineTo(this.position.x, this.position.y);
+    ctx.stroke();
+    ctx.moveTo(this.position.x, this.position.y);
   }
 }

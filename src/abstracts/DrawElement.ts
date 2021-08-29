@@ -10,6 +10,7 @@ export type StylePropertyKey = keyof DrawElementStyle;
 export abstract class DrawElement<T> {
   data: T;
   position: Coordinates;
+  abstract key: string;
 
   constructor(data: T) {
     this.data = data;
@@ -25,6 +26,10 @@ export abstract class DrawElement<T> {
     };
   }
 
-  abstract setupStyle(ctx: CanvasRenderingContext2D): void;
-  abstract draw(ctx: CanvasRenderingContext2D): void;
+  handler = (_e: MouseEvent) => {};
+
+  abstract _createHandler = (ctx: CanvasRenderingContext2D) => {};
+
+  abstract select(element: HTMLCanvasElement): void;
+  abstract deselect(element: HTMLCanvasElement): void;
 }

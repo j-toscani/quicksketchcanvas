@@ -9,8 +9,10 @@ export interface RectData {
 }
 
 export default class Rect extends ClickDrawable<RectData> {
+  key: string;
   constructor(data: RectData) {
     super(data);
+    this.key = "rect";
   }
 
   setupStyle(ctx: CanvasRenderingContext2D) {

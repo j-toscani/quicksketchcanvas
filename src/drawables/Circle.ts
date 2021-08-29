@@ -7,8 +7,10 @@ export interface CircleData {
 }
 
 export default class Circle extends ClickDrawable<CircleData> {
+  key: string;
   constructor(data: CircleData) {
     super(data);
+    this.key = "circle";
   }
 
   setupStyle(ctx: CanvasRenderingContext2D) {

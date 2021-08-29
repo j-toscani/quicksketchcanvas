@@ -6,11 +6,11 @@ import { Drawable } from "../types";
 import { StylePropertyKey } from "../abstracts/DrawElement";
 import { getInputs } from "./activateStyleSelect";
 
-function createDrawOptions(canvas: Canvas) {
+function createDrawOptions() {
   return {
     rect: new Rect({ w: 100, h: 100, fill: "red", stroke: "blue" }),
     circle: new Circle({ r: 50, stroke: "white", fill: "green" }),
-    free: new FreeStroke(canvas, {
+    free: new FreeStroke({
       w: 3,
       stroke: "#ff00ff",
       fill: "#000000",
@@ -26,13 +26,13 @@ export default class Canvas extends StepHistory<() => void> {
   drawOptions: DrawOptions;
   active: Drawable;
 
-  constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+  constructor(canvas: HTMLCanvasElement) {
     super();
-    this.ctx = ctx;
+    this.ctx = canvas.getContext("2d")!;
     this.element = canvas;
 
-    this.drawOptions = createDrawOptions(this);
-    this.active = this.drawOptions["circle"];
+    this.drawOptions = createDrawOptions();
+    this.active = this.drawOptions["free"];
   }
 
   deselectDrawable() {
@@ -63,7 +63,6 @@ export default class Canvas extends StepHistory<() => void> {
 
   private activateButton(key: keyof DrawOptions): void {
     const button = document.querySelector(`[data-drawable=${key}]`);
-
     if (button) {
       button.classList.add("active");
     }
