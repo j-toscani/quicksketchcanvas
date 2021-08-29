@@ -3,6 +3,8 @@ import Circle from "../drawables/Circle";
 import StepHistory from "../abstracts/StepHistory";
 import FreeStroke from "../drawables/FreeStroke";
 import { Drawable } from "../types";
+import { StylePropertyKey } from "../abstracts/DrawElement";
+import { getInputs } from "./activateStyleSelect";
 
 function createDrawOptions(canvas: Canvas) {
   return {
@@ -10,8 +12,8 @@ function createDrawOptions(canvas: Canvas) {
     circle: new Circle({ r: 50, stroke: "white", fill: "green" }),
     free: new FreeStroke(canvas, {
       w: 3,
-      stroke: "yellow",
-      fill: "transparent",
+      stroke: "#ff00ff",
+      fill: "#000000",
     }),
   };
 }
@@ -33,15 +35,25 @@ export default class Canvas extends StepHistory<() => void> {
     this.active = this.drawOptions["circle"];
   }
 
-  setActive(value: keyof DrawOptions) {
-    this.drawOptions[value].deselect(this.element);
-    this.setButtonActivity(value, false);
+  deselectDrawable() {
+    this.active.deselect(this.element);
+    this.deactivateButtons();
+  }
 
-    if (Object.prototype.hasOwnProperty.call(this.drawOptions, value)) {
-      this.drawOptions[value].select(this.element);
-    }
-    this.active = this.drawOptions[value];
-    this.setButtonActivity(value);
+  selectDrawable(key: keyof DrawOptions) {
+    this.active.select(this.element);
+    this.activateButton(key);
+    this.active = this.drawOptions[key];
+  }
+
+  setInputValues() {
+    const inputs = getInputs();
+    inputs.forEach((input) => {
+      const responsibility = input.dataset.style;
+      if (responsibility) {
+        input.value = this.active.data[responsibility as StylePropertyKey];
+      }
+    });
   }
 
   init(): Drawable {
@@ -49,12 +61,17 @@ export default class Canvas extends StepHistory<() => void> {
     return this.active;
   }
 
-  private setButtonActivity(key: keyof DrawOptions, active = true): void {
+  private activateButton(key: keyof DrawOptions): void {
     const button = document.querySelector(`[data-drawable=${key}]`);
 
     if (button) {
-      button.classList[active ? "add" : "remove"]("active");
+      button.classList.add("active");
     }
+  }
+
+  private deactivateButtons() {
+    const buttons = document.querySelectorAll("[data-drawable]");
+    buttons.forEach((button) => button.classList.remove("active"));
   }
 
   private clear(): void {
@@ -63,7 +80,7 @@ export default class Canvas extends StepHistory<() => void> {
   }
 
   onHistoryUpdate(): void {
-    this.drawHistory();
+    // this.drawHistory();
   }
 
   drawHistory(): void {
