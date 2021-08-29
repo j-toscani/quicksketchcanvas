@@ -8,8 +8,8 @@ import { getInputs } from "./activateStyleSelect";
 
 function createDrawOptions() {
   return {
-    rect: new Rect({ w: 100, h: 100, fill: "red", stroke: "blue" }),
-    circle: new Circle({ r: 50, stroke: "white", fill: "green" }),
+    rect: new Rect({ w: 100, h: 100, fill: "#ff0000", stroke: "#eedd22" }),
+    circle: new Circle({ r: 50, stroke: "#000000", fill: "#0e00e0" }),
     free: new FreeStroke({
       w: 3,
       stroke: "#ff00ff",
@@ -47,6 +47,7 @@ export default class Canvas extends StepHistory<() => void> {
 
     this.active.setCanvas(this.element);
     this.activateButton(key);
+    this.setInputValues();
   }
 
   setInputValues() {
@@ -61,6 +62,11 @@ export default class Canvas extends StepHistory<() => void> {
 
   init(): Drawable {
     this.active.setCanvas(this.element);
+    const clearButton = document.querySelector("#clear");
+
+    if (clearButton) {
+      clearButton.addEventListener("click", this.clear);
+    }
     return this.active;
   }
 
@@ -76,10 +82,10 @@ export default class Canvas extends StepHistory<() => void> {
     buttons.forEach((button) => button.classList.remove("active"));
   }
 
-  private clear(): void {
+  private clear = () => {
     const { width, height } = this.element.getBoundingClientRect();
     this.ctx.clearRect(0, 0, width, height);
-  }
+  };
 
   onHistoryUpdate(): void {
     // this.drawHistory();
