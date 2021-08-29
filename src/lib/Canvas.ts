@@ -36,14 +36,17 @@ export default class Canvas extends StepHistory<() => void> {
   }
 
   deselectDrawable() {
-    this.active.deselect(this.element);
+    this.active.removeCanvas(this.element);
     this.deactivateButtons();
   }
 
   selectDrawable(key: keyof DrawOptions) {
-    this.active.select(this.element);
-    this.activateButton(key);
+    this.deselectDrawable();
+
     this.active = this.drawOptions[key];
+
+    this.active.setCanvas(this.element);
+    this.activateButton(key);
   }
 
   setInputValues() {
@@ -57,7 +60,7 @@ export default class Canvas extends StepHistory<() => void> {
   }
 
   init(): Drawable {
-    this.active.select(this.element);
+    this.active.setCanvas(this.element);
     return this.active;
   }
 

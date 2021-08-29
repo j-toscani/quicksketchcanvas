@@ -21,6 +21,7 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
 
   start(ctx: CanvasRenderingContext2D): void {
     this.setupStyle(ctx);
+    this.points = [{ ...this.position }];
     ctx.beginPath();
   }
 
@@ -32,5 +33,6 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
     ctx.lineTo(this.position.x, this.position.y);
     ctx.stroke();
     ctx.moveTo(this.position.x, this.position.y);
+    this.points.push({ ...this.position });
   }
 }

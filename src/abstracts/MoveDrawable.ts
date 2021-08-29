@@ -23,12 +23,13 @@ export abstract class MoveDrawable<
     if (!this.active) {
       return;
     }
-    this.getClickPosition(e);
+    this.setClickPosition(e);
     this.draw(ctx);
   }
 
-  handleMouseUpOrLeave(ctx: CanvasRenderingContext2D) {
+  handleMouseUpOrLeave(ctx: CanvasRenderingContext2D, e: MouseEvent) {
     this.active = false;
+    this.setClickPosition(e);
     this.stop(ctx);
   }
 
@@ -47,7 +48,7 @@ export abstract class MoveDrawable<
           break;
         case "mouseup":
         case "mouseleave":
-          this.handleMouseUpOrLeave(ctx);
+          this.handleMouseUpOrLeave(ctx, e);
           break;
         case "mousedown":
           this.handleMouseDown(ctx);
@@ -59,7 +60,7 @@ export abstract class MoveDrawable<
     };
   };
 
-  select(element: HTMLCanvasElement) {
+  setCanvas(element: HTMLCanvasElement) {
     this._createHandler(element.getContext("2d")!);
 
     element.addEventListener("mousemove", this.handler);
@@ -68,7 +69,7 @@ export abstract class MoveDrawable<
     element.addEventListener("mouseleave", this.handler);
   }
 
-  deselect(element: HTMLCanvasElement) {
+  removeCanvas(element: HTMLCanvasElement) {
     element.removeEventListener("mousemove", this.handler);
     element.removeEventListener("mousedown", this.handler);
     element.removeEventListener("mouseup", this.handler);

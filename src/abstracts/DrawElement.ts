@@ -17,19 +17,20 @@ export abstract class DrawElement<T> {
     this.position = { x: 0, y: 0 };
   }
 
-  getClickPosition(e: MouseEvent) {
+  setClickPosition(e: MouseEvent) {
     const targetRect = (e.target as HTMLElement).getBoundingClientRect();
 
-    this.position = {
+    const position = {
       x: e.pageX - targetRect.x,
       y: e.pageY - targetRect.y,
     };
+    this.position = position;
   }
 
   handler = (_e: MouseEvent) => {};
 
-  abstract _createHandler = (ctx: CanvasRenderingContext2D) => {};
+  abstract _createHandler = (_ctx: CanvasRenderingContext2D) => {};
 
-  abstract select(element: HTMLCanvasElement): void;
-  abstract deselect(element: HTMLCanvasElement): void;
+  abstract setCanvas(element: HTMLCanvasElement): void;
+  abstract removeCanvas(element: HTMLCanvasElement): void;
 }

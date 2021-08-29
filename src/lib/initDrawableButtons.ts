@@ -18,7 +18,7 @@ function addDrawableButtonListenerFactory(canvas: Canvas) {
         | undefined;
 
       if (drawableKey) {
-        canvas.active = canvas.drawOptions[drawableKey];
+        canvas.selectDrawable(drawableKey);
       }
     });
   };

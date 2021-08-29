@@ -12,16 +12,16 @@ export abstract class ClickDrawable<
 
   _createHandler = (ctx: CanvasRenderingContext2D) => {
     this.handler = (e: MouseEvent): void => {
-      this.getClickPosition(e);
+      this.setClickPosition(e);
       this.draw(ctx);
     };
   };
 
-  select(canvas: HTMLCanvasElement): void {
+  setCanvas(canvas: HTMLCanvasElement): void {
     this._createHandler(canvas.getContext("2d")!);
     canvas.addEventListener("click", this.handler);
   }
-  deselect(canvas: HTMLCanvasElement): void {
+  removeCanvas(canvas: HTMLCanvasElement): void {
     canvas.removeEventListener("click", this.handler);
   }
 }
