@@ -1,4 +1,4 @@
-import Canvas, { DrawOptions } from "./Canvas";
+import Canvas, { DrawOptions } from "../Canvas";
 
 export default function initDrawableButtons(canvas: Canvas): string[] {
   const buttons = document.querySelectorAll(

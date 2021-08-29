@@ -1,5 +1,4 @@
 import { ClickDrawable } from "../abstracts/ClickDrawable";
-import Canvas from "../lib/Canvas";
 
 export interface RectData {
   w: number;

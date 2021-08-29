@@ -1,5 +1,5 @@
 import { StylePropertyKey } from "../abstracts/DrawElement";
-import Canvas from "./Canvas";
+import Canvas from "../Canvas";
 
 export default function activateStyleSelect(canvas: Canvas) {
   const inputs = getInputs();

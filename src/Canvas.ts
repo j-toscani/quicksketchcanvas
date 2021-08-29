@@ -1,10 +1,10 @@
-import Rect from "../drawables/Rect";
-import Circle from "../drawables/Circle";
-import StepHistory from "../abstracts/StepHistory";
-import FreeStroke from "../drawables/FreeStroke";
-import { Drawable } from "../types";
-import { StylePropertyKey } from "../abstracts/DrawElement";
-import { getInputs } from "./activateStyleSelect";
+import Rect from "./drawables/Rect";
+import Circle from "./drawables/Circle";
+import StepHistory from "./abstracts/StepHistory";
+import FreeStroke from "./drawables/FreeStroke";
+import { Drawable } from "./types";
+import { StylePropertyKey } from "./abstracts/DrawElement";
+import { getInputs } from "./lib/activateStyleSelect";
 
 function createDrawOptions() {
   return {

@@ -1,19 +1,22 @@
 import createCanvas from "./createCanvas";
-import Canvas from "./Canvas";
+import Canvas from "../Canvas";
 import initDrawableButtons from "./initDrawableButtons";
+import { DrawElement } from "../abstracts/DrawElement";
 
-type CanvasInfos = { canvas: Canvas; active: string; available: string[] };
+type CanvasInfos = {
+  canvas: Canvas;
+  available: string[];
+};
 
 export default function initCanvas(query: string): CanvasInfos {
   const canvas = createCanvas(query);
-  const active = canvas.init();
+  canvas.init();
   const available = initDrawableButtons(canvas);
 
   initRevertRestore(canvas);
 
   return {
     canvas: canvas,
-    active,
     available,
   };
 }
