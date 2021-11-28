@@ -30,23 +30,12 @@
     <section class="canvas-section">
       <canvas width="800" height="600"></canvas>
       <aside>
-        <ul class="drawables-list">
-          <li class="drawables-list__item">
-            <button class="canvas-button" data-drawable="circle"> Circle </button>
-          </li>
-          <li class="drawables-list__item">
-            <button class="canvas-button" data-drawable="rect"> Rect </button>
-          </li>
-          <li class="drawables-list__item">
-            <button class="canvas-button" data-drawable="free"> Free Line </button>
-          </li>
-          <li class="drawables-list__item">
-            <button class="canvas-button" id="clear"> Clear Canvas </button>
-          </li>
-        </ul>
+        <div class="drawables-list" data-canvas="drawables">
+          <button class="canvas-button" data-canvas="clear"> Clear Canvas </button>
+        </div>
         <div class="drawables-list">
-          <button class="canvas-button res-rev" id="revert"> Revert </button>
-          <button class="canvas-button res-rev" id="restore"> Restore </button>
+          <button class="canvas-button res-rev" data-canvas="revert"> Revert </button>
+          <button class="canvas-button res-rev" data-canvas="restore"> Restore </button>
         </div>
       </aside>
     </section>
