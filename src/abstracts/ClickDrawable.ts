@@ -1,3 +1,4 @@
+import { Coordinates } from "../types";
 import { DrawElement, DrawElementStyle } from "./DrawElement";
 
 export abstract class ClickDrawable<
@@ -9,19 +10,4 @@ export abstract class ClickDrawable<
 
   abstract setupStyle(ctx: CanvasRenderingContext2D): void;
   abstract draw(ctx: CanvasRenderingContext2D): void;
-
-  _createHandler = (ctx: CanvasRenderingContext2D) => {
-    this.handler = (e: MouseEvent): void => {
-      this.setClickPosition(e);
-      this.draw(ctx);
-    };
-  };
-
-  setCanvas(canvas: HTMLCanvasElement): void {
-    this._createHandler(canvas.getContext("2d")!);
-    canvas.addEventListener("click", this.handler);
-  }
-  removeCanvas(canvas: HTMLCanvasElement): void {
-    canvas.removeEventListener("click", this.handler);
-  }
 }
