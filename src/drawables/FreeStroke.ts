@@ -3,15 +3,22 @@ import { Coordinates } from "../types";
 
 export interface CorneredLine {
   w: number;
-  fill: string;
   stroke: string;
+  fill: string;
 }
 
+const config = {
+  w: 2,
+  fill: "transparent",
+  stroke: "black",
+};
+
 export default class FreeStroke extends MoveDrawable<CorneredLine> {
-  key: string;
-  constructor(data: CorneredLine) {
-    super(data);
-    this.key = "line";
+  label: string;
+
+  constructor(data?: CorneredLine, label: string = "Free Line") {
+    super({ ...config, ...data });
+    this.label = label;
   }
 
   setupStyle(ctx: CanvasRenderingContext2D) {
@@ -32,22 +39,22 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
 
   drawTo(ctx: CanvasRenderingContext2D, e: MouseEvent): void {
     const position = this.getClickPosition(e);
-    this._draw(ctx, position)
+    this._draw(ctx, position);
     this.points.push(position);
   }
 
-  private _draw(ctx:CanvasRenderingContext2D, position: Coordinates) {
-    const {x, y} = position;
-    ctx.lineTo(x,y);
+  private _draw(ctx: CanvasRenderingContext2D, position: Coordinates) {
+    const { x, y } = position;
+    ctx.lineTo(x, y);
     ctx.stroke();
-    ctx.moveTo(x,y);
+    ctx.moveTo(x, y);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     this.setupStyle(ctx);
     ctx.beginPath();
 
-    this.points.forEach(point => this._draw(ctx, point));
+    this.points.forEach((point) => this._draw(ctx, point));
     ctx.closePath();
   }
 }

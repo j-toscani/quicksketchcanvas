@@ -6,11 +6,17 @@ export interface CircleData {
   fill: string;
 }
 
+const config = {
+  r: 50,
+  fill: "black",
+  stroke: "black",
+};
+
 export default class Circle extends ClickDrawable<CircleData> {
-  key: string;
-  constructor(data: CircleData) {
-    super(data);
-    this.key = "circle";
+  label: string;
+  constructor(data?: CircleData, label = "Circle") {
+    super(data ? { ...config, ...data } : config);
+    this.label = label
   }
 
   setupStyle(ctx: CanvasRenderingContext2D) {

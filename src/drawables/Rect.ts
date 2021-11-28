@@ -7,11 +7,18 @@ export interface RectData {
   stroke: string;
 }
 
+const config = {
+  w: 50,
+  h: 50,
+  fill: "black",
+  stroke: "black",
+};
+
 export default class Rect extends ClickDrawable<RectData> {
-  key: string;
-  constructor(data: RectData) {
-    super(data);
-    this.key = "rect";
+  label: string;
+  constructor(data?: RectData, label: string = "Rectangle") {
+    super(data ? { ...config, ...data } : config);
+    this.label = label;
   }
 
   setupStyle(ctx: CanvasRenderingContext2D) {
