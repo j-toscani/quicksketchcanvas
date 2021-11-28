@@ -1,70 +1,78 @@
-import Canvas from "../lib/Canvas";
+import { Coordinates } from "../types";
 import { DrawElement, DrawElementStyle } from "./DrawElement";
 
-export abstract class MoveDrawable<T extends DrawElementStyle>
-  extends DrawElement<T>
-  implements Drawable
-{
+export abstract class MoveDrawable<
+  T extends DrawElementStyle
+> extends DrawElement<T> {
   points: Coordinates[];
+  active: boolean;
 
-  constructor(canvas: Canvas, data: T) {
-    super(canvas, data);
+  constructor(data: T) {
+    super(data);
+    this.active = false;
     this.points = [];
   }
 
-  abstract start(e: MouseEvent): void;
-  abstract stop(e: MouseEvent): void;
-  abstract setupStyle(): void;
+  abstract setupStyle(ctx: CanvasRenderingContext2D): void;
+  abstract draw(ctx: CanvasRenderingContext2D): void;
 
-  handler = (e: MouseEvent): void => {
-    this.canvas.updatePosition(e);
-    const position = { ...this.canvas.clickPosition };
+  abstract start(ctx: CanvasRenderingContext2D): void;
+  abstract stop(ctx: CanvasRenderingContext2D): void;
 
-    this.draw(position);
-    this.trackJourney(position);
-  };
-
-  trackJourney(coordinates: Coordinates): void {
-    this.points.push({ ...coordinates });
+  handleMove(ctx: CanvasRenderingContext2D, e: MouseEvent) {
+    if (!this.active) {
+      return;
+    }
+    this.setClickPosition(e);
+    this.draw(ctx);
   }
 
-  activate = (e: MouseEvent): void => {
-    this.canvas.updatePosition(e);
-    this.points = [{ ...this.canvas.clickPosition }];
-
-    this.addHandler(this.canvas.element);
-    this.start(e);
-  };
-
-  addHandler(canvas: HTMLCanvasElement) {
-    canvas.addEventListener("mousemove", this.handler);
-    canvas.addEventListener("mouseup", this.deactivate);
-    canvas.addEventListener("mouseleave", this.deactivate);
+  handleMouseUpOrLeave(ctx: CanvasRenderingContext2D, e: MouseEvent) {
+    this.active = false;
+    this.setClickPosition(e);
+    this.stop(ctx);
   }
 
-  deactivate = (e: MouseEvent): void => {
-    this.removeHandler(this.canvas.element);
-    this.stop(e);
-    const points = this.points.map((point) => ({ ...point }));
-    const drawMovement = () => {
-      this.canvas.ctx.beginPath();
-      points.forEach((point) => this.draw(point));
-      this.canvas.ctx.closePath();
+  handleMouseDown(ctx: CanvasRenderingContext2D) {
+    this.active = true;
+    this.start(ctx);
+  }
+
+  _createHandler = (ctx: CanvasRenderingContext2D) => {
+    this.handler = (e: MouseEvent): void => {
+      const { type } = e;
+
+      switch (type) {
+        case "mousemove":
+          this.handleMove(ctx, e);
+          break;
+        case "mouseup":
+        case "mouseleave":
+          this.handleMouseUpOrLeave(ctx, e);
+          break;
+        case "mousedown":
+          this.handleMouseDown(ctx);
+          break;
+        default:
+          console.warn("Unhandled mouse Event:", type);
+          break;
+      }
     };
-
-    this.canvas.addToHistory(drawMovement);
   };
 
-  removeHandler(canvas: HTMLCanvasElement) {
-    canvas.removeEventListener("mousemove", this.handler);
-    canvas.removeEventListener("mouseup", this.deactivate);
-    canvas.removeEventListener("mouseleave", this.deactivate);
+  setCanvas(element: HTMLCanvasElement) {
+    this._createHandler(element.getContext("2d")!);
+
+    element.addEventListener("mousemove", this.handler);
+    element.addEventListener("mousedown", this.handler);
+    element.addEventListener("mouseup", this.handler);
+    element.addEventListener("mouseleave", this.handler);
   }
 
-  select(): void {
-    this.canvas.element.addEventListener("mousedown", this.activate);
-  }
-  deselect(): void {
-    this.canvas.element.removeEventListener("mousedown", this.activate);
+  removeCanvas(element: HTMLCanvasElement) {
+    element.removeEventListener("mousemove", this.handler);
+    element.removeEventListener("mousedown", this.handler);
+    element.removeEventListener("mouseup", this.handler);
+    element.removeEventListener("mouseleave", this.handler);
   }
 }

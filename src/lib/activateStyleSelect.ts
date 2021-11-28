@@ -1,5 +1,5 @@
 import { StylePropertyKey } from "../abstracts/DrawElement";
-import Canvas from "./Canvas";
+import Canvas from "../Canvas";
 
 export default function activateStyleSelect(canvas: Canvas) {
   const inputs = getInputs();
@@ -21,7 +21,7 @@ function createHandleInputChange(canvas: Canvas) {
       throw Error("Unacceptable style prop on input.");
     }
 
-    canvas.drawableData[propToChange] = target.value;
+    canvas.active.data[propToChange] = target.value;
   };
 }
 

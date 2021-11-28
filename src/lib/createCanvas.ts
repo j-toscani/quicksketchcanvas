@@ -1,4 +1,4 @@
-import Canvas from "./Canvas";
+import Canvas from "../Canvas";
 
 export default function createCanvas(query: string): Canvas {
   const canvasEl = document.querySelector(query) as HTMLCanvasElement;
@@ -13,5 +13,5 @@ export default function createCanvas(query: string): Canvas {
     throw new Error("No context was created");
   }
 
-  return new Canvas(canvasEl, ctx);
+  return new Canvas(canvasEl);
 }

@@ -1,5 +1,4 @@
 import { ClickDrawable } from "../abstracts/ClickDrawable";
-import Canvas from "../lib/Canvas";
 
 export interface RectData {
   w: number;
@@ -9,23 +8,19 @@ export interface RectData {
 }
 
 export default class Rect extends ClickDrawable<RectData> {
-  constructor(canvas: Canvas, data: RectData) {
-    super(canvas, data);
+  key: string;
+  constructor(data: RectData) {
+    super(data);
+    this.key = "rect";
   }
 
-  setupStyle() {
-    this.canvas.ctx.fillStyle = this.data.fill;
-    this.canvas.ctx.strokeStyle = this.data.stroke;
+  setupStyle(ctx: CanvasRenderingContext2D) {
+    ctx.fillStyle = this.data.fill;
   }
 
-  draw(position: Coordinates): void {
-    const { x, y, w, h } = { ...position, ...this.data };
-
-    this.canvas.ctx.beginPath();
-    this.setupStyle();
-
-    this.canvas.ctx.rect(x - w / 2, y - h / 2, w, h);
-    this.canvas.ctx.stroke();
-    this.canvas.ctx.fill();
+  draw(ctx: CanvasRenderingContext2D): void {
+    const { x, y, w, h } = { ...this.position, ...this.data };
+    this.setupStyle(ctx);
+    ctx.fillRect(x - w / 2, y - h / 2, w, h);
   }
 }

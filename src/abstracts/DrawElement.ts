@@ -1,4 +1,5 @@
-import Canvas from "../lib/Canvas";
+import { Coordinates } from "../types";
+import StepHistory from "./StepHistory";
 
 export interface DrawElementStyle {
   fill: string;
@@ -9,12 +10,38 @@ export type StylePropertyKey = keyof DrawElementStyle;
 
 export abstract class DrawElement<T> {
   data: T;
-  canvas: Canvas;
+  position: Coordinates;
+  abstract key: string;
 
-  constructor(canvas: Canvas, data: T) {
-    this.canvas = canvas;
+  constructor(data: T) {
     this.data = data;
+    this.position = { x: 0, y: 0 };
   }
 
-  abstract draw(position: Coordinates): void;
+  setClickPosition(e: MouseEvent) {
+    const targetRect = (e.target as HTMLElement).getBoundingClientRect();
+
+    const position = {
+      x: e.pageX - targetRect.x,
+      y: e.pageY - targetRect.y,
+    };
+    this.position = position;
+  }
+
+  handler = (_e: MouseEvent) => {};
+
+  abstract _createHandler = (
+    _ctx: CanvasRenderingContext2D,
+    history?: StepHistory<() => {}>
+  ) => {};
+
+  abstract setCanvas(
+    element: HTMLCanvasElement,
+    history?: StepHistory<() => {}>
+  ): void;
+
+  abstract removeCanvas(
+    element: HTMLCanvasElement,
+    history?: StepHistory<() => {}>
+  ): void;
 }

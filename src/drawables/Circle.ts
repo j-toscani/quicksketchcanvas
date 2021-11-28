@@ -1,5 +1,4 @@
 import { ClickDrawable } from "../abstracts/ClickDrawable";
-import Canvas from "../lib/Canvas";
 
 export interface CircleData {
   r: number;
@@ -8,20 +7,21 @@ export interface CircleData {
 }
 
 export default class Circle extends ClickDrawable<CircleData> {
-  constructor(canvas: Canvas, data: CircleData) {
-    super(canvas, data);
+  key: string;
+  constructor(data: CircleData) {
+    super(data);
+    this.key = "circle";
   }
 
-  setupStyle() {
+  setupStyle(ctx: CanvasRenderingContext2D) {
     const { fill = "white", stroke = "black" } = this.data;
-    this.canvas.ctx.fillStyle = fill;
-    this.canvas.ctx.strokeStyle = stroke;
+    ctx.fillStyle = fill;
+    ctx.strokeStyle = stroke;
   }
 
-  draw(position: Coordinates): void {
-    const ctx = this.canvas.ctx;
-    const { x, y } = position;
-    this.setupStyle();
+  draw(ctx: CanvasRenderingContext2D): void {
+    const { x, y } = this.position;
+    this.setupStyle(ctx);
 
     ctx.beginPath();
     ctx.arc(x, y, this.data.r, 0, Math.PI * 2);

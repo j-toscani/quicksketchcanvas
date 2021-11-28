@@ -1,25 +1,27 @@
-import Canvas from "../lib/Canvas";
 import { DrawElement, DrawElementStyle } from "./DrawElement";
 
-export abstract class ClickDrawable<T extends DrawElementStyle>
-  extends DrawElement<T>
-  implements Drawable
-{
-  constructor(canvas: Canvas, data: T) {
-    super(canvas, data);
+export abstract class ClickDrawable<
+  T extends DrawElementStyle
+> extends DrawElement<T> {
+  constructor(data: T) {
+    super(data);
   }
-  abstract setupStyle(): void;
-  handler = (e: MouseEvent): void => {
-    this.canvas.updatePosition(e);
-    const position = { ...this.canvas.clickPosition };
-    const drawFunction = () => this.draw(position);
-    this.canvas.addToHistory(drawFunction);
-    drawFunction();
+
+  abstract setupStyle(ctx: CanvasRenderingContext2D): void;
+  abstract draw(ctx: CanvasRenderingContext2D): void;
+
+  _createHandler = (ctx: CanvasRenderingContext2D) => {
+    this.handler = (e: MouseEvent): void => {
+      this.setClickPosition(e);
+      this.draw(ctx);
+    };
   };
-  select(): void {
-    this.canvas.element.addEventListener("click", this.handler);
+
+  setCanvas(canvas: HTMLCanvasElement): void {
+    this._createHandler(canvas.getContext("2d")!);
+    canvas.addEventListener("click", this.handler);
   }
-  deselect(): void {
-    this.canvas.element.removeEventListener("click", this.handler);
+  removeCanvas(canvas: HTMLCanvasElement): void {
+    canvas.removeEventListener("click", this.handler);
   }
 }
