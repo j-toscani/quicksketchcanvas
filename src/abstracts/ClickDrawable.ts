@@ -11,4 +11,5 @@ export abstract class ClickDrawable<
 
   abstract setupStyle(ctx: CanvasRenderingContext2D): void;
   abstract draw(ctx: CanvasRenderingContext2D): void;
+  abstract updateSizes(sizes: {w: number, h: number}):void
 }

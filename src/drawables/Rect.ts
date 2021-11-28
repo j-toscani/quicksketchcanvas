@@ -8,8 +8,8 @@ export interface RectData {
 }
 
 const config = {
-  w: 50,
-  h: 50,
+  w: 5,
+  h: 5,
   fill: "black",
   stroke: "black",
 };
@@ -21,14 +21,18 @@ export default class Rect extends ClickDrawable<RectData> {
     this.label = label;
   }
 
-  setupStyle(ctx: CanvasRenderingContext2D) {
+  setupStyle(ctx: CanvasRenderingContext2D){
     ctx.fillStyle = this.data.fill;
     ctx.strokeStyle = this.data.stroke;
+  }
+
+  updateSizes(sizes: {w:number, h: number}){
+    this.data = {...this.data, ...sizes};
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
     const { x, y, w, h } = { ...this.position, ...this.data };
     this.setupStyle(ctx);
-    ctx.fillRect(x - w / 2, y - h / 2, w, h);
+    ctx.fillRect(x, y , w, h);
   }
 }
