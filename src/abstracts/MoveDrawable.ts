@@ -5,6 +5,7 @@ export abstract class MoveDrawable<
   T extends DrawElementStyle
 > extends DrawElement<T> {
   points: Coordinates[];
+  abstract label: string;
 
   constructor(data: T) {
     super(data);

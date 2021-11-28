@@ -11,7 +11,6 @@ export type StylePropertyKey = keyof DrawElementStyle;
 export abstract class DrawElement<T> {
   data: T;
   position: Coordinates;
-  abstract key: string;
 
   constructor(data: T) {
     this.data = data;
