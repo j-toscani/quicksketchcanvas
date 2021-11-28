@@ -20,7 +20,7 @@ export default class Circle extends ClickDrawable<CircleData> {
   }
 
   setupStyle(ctx: CanvasRenderingContext2D) {
-    const { fill = "white", stroke = "black" } = this.data;
+    const { fill, stroke } = this.data;
     ctx.fillStyle = fill;
     ctx.strokeStyle = stroke;
   }

@@ -23,6 +23,7 @@ export default class Rect extends ClickDrawable<RectData> {
 
   setupStyle(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = this.data.fill;
+    ctx.strokeStyle = this.data.stroke;
   }
 
   draw(ctx: CanvasRenderingContext2D): void {

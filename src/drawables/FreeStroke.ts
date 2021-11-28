@@ -21,7 +21,7 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
 
   setupStyle(ctx: CanvasRenderingContext2D) {
     ctx.lineWidth = this.data.w;
-    ctx.strokeStyle = this.data.stroke ?? "black";
+    ctx.strokeStyle = this.data.stroke;
     ctx.lineJoin = "round";
   }
 
