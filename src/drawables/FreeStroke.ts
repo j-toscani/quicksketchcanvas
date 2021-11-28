@@ -1,4 +1,5 @@
 import { MoveDrawable } from "../abstracts/MoveDrawable";
+import { Coordinates } from "../types";
 
 export interface CorneredLine {
   w: number;
@@ -19,9 +20,9 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
     ctx.lineJoin = "round";
   }
 
-  start(ctx: CanvasRenderingContext2D): void {
+  start(ctx: CanvasRenderingContext2D, e: MouseEvent): void {
     this.setupStyle(ctx);
-    this.points = [{ ...this.position }];
+    this.points = [this.getClickPosition(e)];
     ctx.beginPath();
   }
 
@@ -29,10 +30,24 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
     ctx.closePath();
   }
 
-  draw(ctx: CanvasRenderingContext2D): void {
-    ctx.lineTo(this.position.x, this.position.y);
+  drawTo(ctx: CanvasRenderingContext2D, e: MouseEvent): void {
+    const position = this.getClickPosition(e);
+    this._draw(ctx, position)
+    this.points.push(position);
+  }
+
+  private _draw(ctx:CanvasRenderingContext2D, position: Coordinates) {
+    const {x, y} = position;
+    ctx.lineTo(x,y);
     ctx.stroke();
-    ctx.moveTo(this.position.x, this.position.y);
-    this.points.push({ ...this.position });
+    ctx.moveTo(x,y);
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    this.setupStyle(ctx);
+    ctx.beginPath();
+
+    this.points.forEach(point => this._draw(ctx, point));
+    ctx.closePath();
   }
 }
