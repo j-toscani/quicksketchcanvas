@@ -2,7 +2,7 @@ import { Coordinates } from "../types";
 import StepHistory from "./StepHistory";
 
 export interface DrawElementStyle {
-  fill: string;
+  fill?: string;
   stroke: string;
 }
 

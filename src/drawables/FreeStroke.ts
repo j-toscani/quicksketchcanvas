@@ -4,12 +4,10 @@ import { Coordinates } from "../types";
 export interface CorneredLine {
   w: number;
   stroke: string;
-  fill: string;
 }
 
 const config = {
   w: 2,
-  fill: "transparent",
   stroke: "black",
 };
 
