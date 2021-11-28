@@ -1,30 +1,53 @@
-import Canvas, { DrawOptions } from "../Canvas";
+import Canvas from "../Canvas";
+import Circle from "../drawables/Circle";
+import FreeStroke from "../drawables/FreeStroke";
+import Rect from "../drawables/Rect";
 
-export default function initDrawableButtons(canvas: Canvas): string[] {
-  const buttons = document.querySelectorAll(
-    "[data-drawable]"
-  ) as NodeListOf<HTMLButtonElement>;
-  const addDrawableButtonListener = addDrawableButtonListenerFactory(canvas);
-  buttons.forEach(addDrawableButtonListener);
+const DRAWABLES = [FreeStroke, Rect, Circle];
+const UTILITIES = ["clear", "revert", "restore"] as const;
 
-  return getButtonKeys(buttons);
+type Utility = typeof UTILITIES[number];
+type Drawable = typeof DRAWABLES[number];
+
+export default function initDrawableButtons(canvas: Canvas) {
+  const buttons = DRAWABLES.map((drawable) =>
+    createDrawableButton(drawable, canvas)
+  );
+  UTILITIES.forEach((utility) => addUtility(canvas, utility));
+
+  const buttonContainer = document.querySelector("[data-canvas='drawables']");
+
+  if (!buttonContainer) {
+    throw new Error(
+      `Button Container not present. Please add a container element with '[data-canvas='drawables']' to the DOM`
+    );
+  }
+
+  buttons.forEach((button) => buttonContainer.append(button));
 }
 
-function addDrawableButtonListenerFactory(canvas: Canvas) {
-  return (button: HTMLButtonElement) => {
-    button.addEventListener("click", () => {
-      const drawableKey = (button as HTMLButtonElement).dataset.drawable as
-        | keyof DrawOptions
-        | undefined;
+function addUtility(canvas: Canvas, utility: Utility) {
+  const button = document.querySelector(`[data-canvas="${utility}"]`);
 
-      if (drawableKey) {
-        canvas.selectDrawable(drawableKey);
-      }
-    });
-  };
+  if (!button) {
+    console.warn(
+      `Did not find button for: ${utility}.\nThis utility will not be used.`
+    );
+
+    return;
+  }
+  button.addEventListener("click", () => {
+    canvas[utility]();
+  });
 }
 
-function getButtonKeys(buttons: NodeListOf<HTMLButtonElement>): string[] {
-  const keys = Array.from(buttons).map((button) => button.dataset.drawable);
-  return keys.filter((key) => key) as string[];
+function createDrawableButton(drawable: Drawable, canvas: Canvas) {
+  const button = document.createElement("button");
+  button.classList.add("canvas-button");
+  button.textContent = new drawable().label;
+
+  button.addEventListener("click", () => {
+    canvas.use(drawable);
+  });
+  return button;
 }
