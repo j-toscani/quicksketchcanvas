@@ -1,106 +1,111 @@
-import Rect from "./drawables/Rect";
-import Circle from "./drawables/Circle";
 import StepHistory from "./abstracts/StepHistory";
 import FreeStroke from "./drawables/FreeStroke";
 import { DrawElementStyle } from "./abstracts/DrawElement";
 import { MoveDrawable } from "./abstracts/MoveDrawable";
 import { ClickDrawable } from "./abstracts/ClickDrawable";
 
-type DrawableElementObject =
+export type DrawableElementObject =
   | MoveDrawable<DrawElementStyle>
   | ClickDrawable<DrawElementStyle>;
 export default class Canvas extends StepHistory<DrawableElementObject> {
   ctx: CanvasRenderingContext2D;
-  element: HTMLCanvasElement;
-  readonly _chosenElement: new (data: any) =>
-    | MoveDrawable<DrawElementStyle>
-    | ClickDrawable<DrawElementStyle>;
-  drawnObjects: (
-    | MoveDrawable<DrawElementStyle>
-    | ClickDrawable<DrawElementStyle>
-  )[];
+  canvasElement: HTMLCanvasElement;
+  _chosenElement: new (data?: any) => DrawableElementObject;
+  drawnObjects: DrawableElementObject[];
 
   constructor(canvas: HTMLCanvasElement) {
     super();
     this.ctx = canvas.getContext("2d")!;
-    this.element = canvas;
+    this.canvasElement = canvas;
     this.drawnObjects = [];
-    this._chosenElement = Rect;
+    this._chosenElement = FreeStroke;
+    this.use(FreeStroke);
   }
 
-  init() {
-    this.element.addEventListener("mousedown", this.moveStart);
-    this.element.addEventListener("mouseup", this.moveStop);
+  get using() {
+    return this.lastAdded.label;
   }
 
   get lastAdded() {
     return this.drawnObjects[this.drawnObjects.length - 1];
   }
 
+  clear() {
+    const { width, height } = this.canvasElement.getBoundingClientRect();
+    this.ctx.clearRect(0, 0, width, height);
+  }
+
+  use(element: new (data?: any) => DrawableElementObject) {
+    this.removeListeners();
+
+    if (new element() instanceof ClickDrawable) {
+      this.canvasElement.addEventListener("click", this.clickDraw);
+    } else {
+      this.canvasElement.addEventListener("mousedown", this.moveStart);
+    }
+
+    this._chosenElement = element;
+  }
+
+  onHistoryUpdate() {
+    this.clear();
+    console.log(this.historyStep, this.getHistoryState())
+    this.getHistoryState().forEach((step) => step.draw(this.ctx));
+  }
+
+  private removeListeners() {
+    this.canvasElement.removeEventListener("click", this.clickDraw);
+    this.canvasElement.removeEventListener("mousedown", this.moveStart);
+    this.canvasElement.removeEventListener("mouseup", this.moveStop);
+    this.canvasElement.removeEventListener("mouseleave", this.moveStop);
+  }
+
   private addElement(element: DrawableElementObject) {
     this.drawnObjects.push(element);
   }
 
-  clickDraw = (e: MouseEvent) => {
+  private clickDraw = (e: MouseEvent) => {
     const clickable = this.createClickable();
 
     clickable.position = clickable.getClickPosition(e);
     clickable.draw(this.ctx);
     this.addElement(clickable);
+    this.addToHistory(clickable);
   };
 
-  moveStart = (e: MouseEvent) => {
-    try {
-      const moveable = this.createMoveable();
-      moveable.start(this.ctx, e);
-      this.addElement(moveable);
+  private moveStart = (e: MouseEvent) => {
+    this.canvasElement.addEventListener("mouseup", this.moveStop);
+    this.canvasElement.addEventListener("mouseleave", this.moveStop);
 
-      this.element.addEventListener("mousemove", this.moveDraw);
-    } catch (error) {
-      console.error(error);
-      alert("Please choose a different Element to draw.");
-    }
+    const moveable = this.createMoveable();
+    moveable.start(this.ctx, e);
+    this.addElement(moveable);
+
+    this.canvasElement.addEventListener("mousemove", this.moveDraw);
   };
 
-  moveDraw = (e: MouseEvent) => {
+  private moveDraw = (e: MouseEvent) => {
     const currentLine = this.lastAdded as FreeStroke;
     currentLine.drawTo(this.ctx, e);
   };
 
-  moveStop = (_e: MouseEvent) => {
+  private moveStop = (_e: MouseEvent) => {
     const currentLine = this.lastAdded as FreeStroke;
     currentLine.stop(this.ctx);
 
-    this.element.removeEventListener("mousemove", this.moveDraw);
+    this.removeListeners();
+    this.addToHistory(currentLine);
   };
 
-  onHistoryUpdate() {
-    this.drawnObjects.forEach((object) => {
-      object.draw(this.ctx);
-    });
-  }
-
   private createClickable(): ClickDrawable<DrawElementStyle> {
-    const element = new this._chosenElement({
-      w: 50,
-      h: 50,
-      fill: "black",
-      stroke: "black",
-    });
-
-    return element;
+    return new this._chosenElement();
   }
-  private createMoveable() {
-    const element = new this._chosenElement({
-      w: 2,
-      fill: "red",
-      stroke: "black",
-    });
 
+  private createMoveable(): MoveDrawable<DrawElementStyle> {
+    const element = new this._chosenElement();
     if (!(element instanceof MoveDrawable)) {
-      throw new Error("Element can not be drawn by Moving!");
+      throw new Error("The chosen Element ist not an drawable while moving!");
     }
-
     return element;
   }
 }
