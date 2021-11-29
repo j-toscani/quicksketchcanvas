@@ -1,9 +1,11 @@
 export default abstract class StepHistory<T> {
   history: T[];
+  backups: T[][];
   _historyStep: number;
 
   constructor() {
     this.history = [];
+    this.backups = [];
     this._historyStep = 0;
   }
 
@@ -17,6 +19,7 @@ export default abstract class StepHistory<T> {
   }
 
   abstract onHistoryUpdate(): void;
+  abstract onBackupCreate(): void;
 
   addToHistory(step: T): void {
     if (this.historyStep < 0) {
@@ -32,6 +35,15 @@ export default abstract class StepHistory<T> {
 
   restore(): void {
     this.historyStep += 1;
+  }
+
+  createBackup() {
+    this.backups.push(this.history.slice(0));
+  }
+
+  applyBackup() {
+    this.history = this.backups.pop() ?? this.history;
+    this.historyStep = 0;
   }
 
   getHistoryState(): T[] {

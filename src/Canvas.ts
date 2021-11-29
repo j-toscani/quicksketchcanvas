@@ -34,9 +34,14 @@ export default class Canvas extends StepHistory<DrawableElementObject> {
     return this.drawnObjects[this.drawnObjects.length - 1];
   }
 
-  clear() {
+  _clear() {
     const { width, height } = this.canvasElement.getBoundingClientRect();
     this.ctx.clearRect(0, 0, width, height);
+  }
+
+  clear() {
+    this._clear();
+    this.history = [];
   }
 
   use(element: new (data?: any) => Drawable) {
@@ -44,39 +49,39 @@ export default class Canvas extends StepHistory<DrawableElementObject> {
   }
 
   onHistoryUpdate() {
-    this.clear();
+    this._clear();
     this.getHistoryState().forEach((step) => step.draw(this.ctx));
   }
+
+  onBackupCreate() {}
 
   handleMouseDown = (e: MouseEvent) => {
     this.isDrawing = true;
     if (!(new this._chosenElement() instanceof MoveDrawable)) {
       this.clickDraw(e);
     } else {
-      this.moveStart(e)
+      this.moveStart(e);
     }
-  }
+  };
   handleMouseLeave = (e: MouseEvent) => {
-    if(!this.isDrawing) {
+    if (!this.isDrawing) {
       return;
     }
     this.isDrawing = false;
     if (new this._chosenElement() instanceof MoveDrawable) {
       this.moveStop(e);
     }
-  }
+  };
+
   handleMouseMove = (e: MouseEvent) => {
-    if (!this.isDrawing) {
-      return;
-    }
     if (!(new this._chosenElement() instanceof MoveDrawable)) {
       this.resizeClickable(e);
     } else {
-      this.moveDraw(e)
+      this.moveDraw(e);
     }
-  }
+  };
 
-  private addListeners() { 
+  private addListeners() {
     this.canvasElement.addEventListener("mousemove", this.handleMouseMove);
     this.canvasElement.addEventListener("mousedown", this.handleMouseDown);
     this.canvasElement.addEventListener("mouseup", this.handleMouseLeave);
@@ -98,8 +103,9 @@ export default class Canvas extends StepHistory<DrawableElementObject> {
   };
 
   private resizeClickable = (e: MouseEvent) => {
-    this.clear();
-    this.history.slice(0, -1).forEach(element => element.draw(this.ctx))
+    this._clear();
+
+    this.history.slice(0, -1).forEach((element) => element.draw(this.ctx));
 
     const element = this.lastAdded as ClickDrawable<any>;
     const { x, y } = element.position;
@@ -108,9 +114,9 @@ export default class Canvas extends StepHistory<DrawableElementObject> {
       h: e.offsetY - y,
     };
 
-    element.updateSizes(sizes)
+    element.updateSizes(sizes);
     element.draw(this.ctx);
-  }
+  };
 
   private moveStart = (e: MouseEvent) => {
     this.handleMouseMove = (e: MouseEvent) => this.moveDraw(e);
