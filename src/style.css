@@ -25,7 +25,11 @@ body {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 10vh 1fr 20vh;
+  grid-template-rows: 10vh 1fr;
+  background: var(--color-500);
+}
+header {
+  background: var(--color-400);
 }
 h1 {
   font-weight: 600;
@@ -91,6 +95,7 @@ input[type="color"] {
   cursor: pointer;
   padding: 0.5rem;
   background: var(--color-400);
+  border: 1px solid var(--color-100);
   opacity: 0.6;
 
   transition: all 0.2s ease-out;
@@ -119,6 +124,7 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .drawables-list__item {
