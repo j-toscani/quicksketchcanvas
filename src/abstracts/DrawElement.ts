@@ -1,5 +1,4 @@
 import { Coordinates } from "../types";
-import StepHistory from "./StepHistory";
 
 export interface DrawElementStyle {
   fill?: string;
