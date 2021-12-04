@@ -10,6 +10,7 @@ export type DrawableElementObject =
   | ClickDrawable<DrawElementStyle>;
 export default class Canvas extends StepHistory<DrawableElementObject> {
   ctx: CanvasRenderingContext2D;
+  drawStyles: DrawElementStyle;
   canvasElement: HTMLCanvasElement;
   _chosenElement: new (data?: any) => Drawable;
   drawnObjects: Drawable[];
@@ -22,6 +23,12 @@ export default class Canvas extends StepHistory<DrawableElementObject> {
     this.drawnObjects = [];
     this.isDrawing = false;
     this._chosenElement = FreeStroke;
+
+    this.drawStyles = {
+      fill: "black",
+      stroke: "black",
+    };
+
     this.use(FreeStroke);
     this.addListeners();
   }
@@ -138,13 +145,13 @@ export default class Canvas extends StepHistory<DrawableElementObject> {
   };
 
   private createClickable(): Drawable {
-    return new this._chosenElement();
+    return new this._chosenElement({ ...this.drawStyles });
   }
 
   private createMoveable(): FreeStroke {
-    const element = new this._chosenElement();
+    const element = new this._chosenElement({ ...this.drawStyles });
     if (!(element instanceof MoveDrawable)) {
-      throw new Error("The chosen Element ist not an drawable while moving!");
+      throw new Error("The chosen Element ist not a drawable while moving!");
     }
     return element;
   }
