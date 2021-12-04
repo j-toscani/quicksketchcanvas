@@ -63,17 +63,16 @@ export default class Canvas extends StepHistory<DrawableElementObject> {
       this.moveStart(e);
     }
   };
+
   handleMouseLeave = (e: MouseEvent) => {
-    if (!this.isDrawing) {
-      return;
-    }
     this.isDrawing = false;
-    if (new this._chosenElement() instanceof MoveDrawable) {
-      this.moveStop(e);
-    }
+    this.moveStop(e);
   };
 
   handleMouseMove = (e: MouseEvent) => {
+    if (!this.isDrawing) {
+      return;
+    }
     if (!(new this._chosenElement() instanceof MoveDrawable)) {
       this.resizeClickable(e);
     } else {
@@ -119,9 +118,6 @@ export default class Canvas extends StepHistory<DrawableElementObject> {
   };
 
   private moveStart = (e: MouseEvent) => {
-    this.handleMouseMove = (e: MouseEvent) => this.moveDraw(e);
-    this.handleMouseLeave = (e: MouseEvent) => this.moveStop(e);
-
     const moveable = this.createMoveable();
     moveable.start(this.ctx, e);
     this.addElement(moveable);
@@ -133,10 +129,12 @@ export default class Canvas extends StepHistory<DrawableElementObject> {
   };
 
   private moveStop = (_e: MouseEvent) => {
-    const currentLine = this.lastAdded as FreeStroke;
-    currentLine.stop(this.ctx);
+    const currentLine = this.lastAdded;
 
-    this.addToHistory(currentLine);
+    if (currentLine instanceof MoveDrawable) {
+      currentLine.stop(this.ctx);
+      this.addToHistory(currentLine);
+    }
   };
 
   private createClickable(): Drawable {
