@@ -40,19 +40,23 @@ export default class FreeStroke extends MoveDrawable<CorneredLine> {
     this._draw(ctx, position);
     this.points.push(position);
   }
-
-  private _draw(ctx: CanvasRenderingContext2D, position: Coordinates) {
+  private _addLine(ctx: CanvasRenderingContext2D, position: Coordinates) {
     const { x, y } = position;
     ctx.lineTo(x, y);
-    ctx.stroke();
     ctx.moveTo(x, y);
+  }
+
+  private _draw(ctx: CanvasRenderingContext2D, position: Coordinates) {
+    this._addLine(ctx, position);
+    ctx.stroke();
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     this.setupStyle(ctx);
     ctx.beginPath();
 
-    this.points.forEach((point) => this._draw(ctx, point));
+    this.points.forEach((point) => this._addLine(ctx, point));
+    ctx.stroke();
     ctx.closePath();
   }
 }
