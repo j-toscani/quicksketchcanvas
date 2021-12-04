@@ -56,9 +56,9 @@ input[type="color"] {
   height: 1.5rem;
   width: 1.25rem;
   display: inline-block;
-  padding:0;
-  margin:0;
-  border:0;
+  padding: 0;
+  margin: 0;
+  border: 0;
   background-color: transparent;
 }
 
@@ -120,7 +120,8 @@ aside > button:last-of-type {
   opacity: 1;
 }
 
-.canvas-button.active {
+.canvas-button.active,
+button:active {
   color: white;
   opacity: 1;
   background-color: var(--color-100);

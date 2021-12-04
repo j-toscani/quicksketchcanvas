@@ -47,7 +47,11 @@ function createDrawableButton(drawable: Drawable, canvas: Canvas) {
   button.textContent = new drawable().label;
 
   button.addEventListener("click", () => {
+    document
+      .querySelectorAll(".canvas-button")
+      .forEach((canvasButton) => canvasButton.classList.remove("active"));
     canvas.use(drawable);
+    button.classList.add("active");
   });
   return button;
 }
