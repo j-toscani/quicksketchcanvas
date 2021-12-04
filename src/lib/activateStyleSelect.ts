@@ -1,4 +1,3 @@
-import { StylePropertyKey } from "../abstracts/DrawElement";
 import Canvas from "../Canvas";
 
 export default function activateStyleSelect(canvas: Canvas) {
@@ -15,19 +14,12 @@ export function getInputs(): NodeListOf<HTMLInputElement> {
 function createHandleInputChange(canvas: Canvas) {
   return (e: Event) => {
     const target = e.target as HTMLInputElement;
-    const propToChange = getStyleDataProp(target);
+    const propToChange = target.dataset.style as "fill" | "stroke";
 
-    if (!propToChange) {
-      throw Error("Unacceptable style prop on input.");
+    if (propToChange in canvas.drawStyles) {
+      canvas.drawStyles[propToChange] = target.value;
+    } else {
+      console.warn("Trying to access unregistered style: ", propToChange);
     }
-
-    canvas.active.data[propToChange] = target.value;
   };
-}
-
-function getStyleDataProp(element: HTMLInputElement): StylePropertyKey | false {
-  const propToChange = element.dataset.style as "fill" | "stroke";
-  return propToChange && ["fill", "stroke"].includes(propToChange)
-    ? propToChange
-    : false;
 }
