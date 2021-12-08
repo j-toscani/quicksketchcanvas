@@ -3,6 +3,7 @@
   "short_name": "Quicksketch",
   "start_url": "./?utm_source=pwa",
   "theme_color": "#1cb041",
+  "background_color": "#0e5820",
   "scope": "./",
   "display": "standalone",
   "icons": [
