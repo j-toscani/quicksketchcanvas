@@ -1,0 +1,8 @@
+{
+  "name": "Quicksketch - Quickly draw what you want.",
+  "short_name": "Quicksketch",
+  "start_url": "./?utm_source=pwa",
+  "theme_color": "#1cb041",
+  "scope": "./",
+  "display": "standalone"
+}
